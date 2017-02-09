@@ -362,7 +362,6 @@ def shouldPublishToSonatype: Boolean = {
 
 lazy val publishableSettings = Def.settings(
   sharedSettings,
-  bintrayOrganization := Some("scalameta"),
   publishArtifact in Compile := true,
   publishArtifact in Test := false,
   {
@@ -383,21 +382,7 @@ lazy val publishableSettings = Def.settings(
     else if (shouldPublishToSonatype) Def.task { publishSigned.value }
     else Def.task { sys.error("Undefined publishing strategy"); () }
   }).value,
-  publishTo := {
-    if (shouldPublishToBintray) (publishTo in bintray).value
-    else if (shouldPublishToSonatype) Some("releases" at "https://oss.sonatype.org/" + "service/local/staging/deploy/maven2")
-    else publishTo.value
-  },
-  credentials ++= {
-    if (shouldPublishToBintray) {
-      // NOTE: Bintray credentials are automatically loaded by the sbt-bintray plugin
-      Nil
-    } else if (shouldPublishToSonatype) {
-      os.secret.obtain("sonatype").map({
-        case (username, password) => Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", username, password)
-      }).toList
-    } else Nil
-  },
+  credentials ++= Nil,
   publishMavenStyle := {
     if (shouldPublishToBintray) false
     else if (shouldPublishToSonatype) true
