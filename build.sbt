@@ -308,7 +308,7 @@ lazy val testkit = Project(id = "testkit", base = file("scalameta/testkit"))
     hasLargeIntegrationTests,
     libraryDependencies ++= Seq(
       "org.scalatest" %%% "scalatest" % "3.0.1",
-      "com.lihaoyi" %% "geny" % "0.1.1",
+      "com.lihaoyi" %% "geny" % "0.1.2",
       // These are used to download and extract a corpus tar.gz
       "org.rauschig" % "jarchivelib" % "0.7.1",
       "commons-io" % "commons-io" % "2.5",
